@@ -8,8 +8,8 @@ from rest_framework import status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet,ReadOnlyModelViewSet
-from .models import Product, Collection,OrderItem
-from .serializer import ProductSerializer, CollectionSerializer
+from .models import Product, Collection,OrderItem,Review
+from .serializer import ProductSerializer, CollectionSerializer,ReviewSerializer
 
 
    
@@ -46,6 +46,10 @@ class CollectionViewSet(ModelViewSet):
             )
 
         return self.response(status = status.HTTP_204_NO_CONTENT)
+    
+class ReviewViewSet(ModelViewSet):
+     queryset = Review.objects.all()
+     serializer_class = ReviewSerializer
 
 
    
