@@ -5,6 +5,7 @@ from . import views
 # URLConf
 
 urlpatterns = [
-    path('products/', views.product_list),
-    path('products/<int:id>/', views.product_details)
+    path('products/', views.ProductList.as_view()),
+    path('products/<int:id>/', views.ProductDetails.as_view()),
+    path('collectins/<int:pk>/', views.collection_detail,name = 'collection_detail')
 ]
