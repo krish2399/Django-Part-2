@@ -20,19 +20,14 @@ class ProductList(ListCreateAPIView):
    
 
 
-class ProductDetails(APIView):
-    def get(self,request,id):
-        product = get_object_or_404(Product, pk=id)
-        serializer = ProductSerializer(product)
-        return Response(serializer.data)
-    def put(self,request,id):
-        product = get_object_or_404(Product, pk=id)
-        serializer = ProductSerializer(product, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-    def delete(self,request,id):
-        product = get_object_or_404(Product, pk=id)
+class ProductDetails(RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()  
+    serializer_class = ProductSerializer
+
+   
+    
+    def delete(self,request,pk):
+        product = get_object_or_404(Product, pk=pk)
         if product.orderitem_set.exists():
             return Response(
                 {'error': 'Product cannot be deleted because it is associated with an order item.'},
@@ -59,7 +54,7 @@ class CollectionDetails(RetrieveUpdateDestroyAPIView):
                 status=status.HTTP_405_METHOD_NOT_ALLOWED
             )
 
-        return super().delete(request, *args, **kwargs)
+        return self.response(status = status.HTTP_204_NO_CONTENT)
          
 
     
