@@ -29,13 +29,12 @@ class ProductSerializer(serializers.ModelSerializer):
         return product.unit_price * Decimal(1.1)
 
 
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['id', 'date', 'name', 'descprition', 'product']
+        fields = ['id', 'date', 'name', 'description']
 
-    # def validate(self, data):
-    #     if data['password']!= data['confrim_password']:
-    #         return serializers.ValidationError('Password donot matach')
-    #     else:
-    #         return data
+    def create(self,validted_data):
+        product_id = self.context['product_id']
+        return Review.objects.create(product_id=product_id,**validted_data)
